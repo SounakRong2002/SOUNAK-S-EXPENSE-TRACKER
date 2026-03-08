@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#eef2ff" />
+    <title>SOUNAK'S Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bg-gradient"></div>
+    <div class="app">
+      <header class="app-header glass">
+        <div>
+          <p class="eyebrow">Sounak Rong's Finance</p>
+          <h1>Expense Tracker</h1>
+          <p class="subtitle">Track income, expenses,investments and category insights.</p>
+        </div>
+        <div class="header-actions">
+          <button id="clearAllBtn" class="ghost-btn">Clear All</button>
+          <button id="logoutBtn" class="ghost-btn">Logout</button>
+        </div>
+      </header>
+
+      <section class="summary-grid">
+        <div class="glass summary-card">
+          <p class="label">Total Income</p>
+          <h2 id="totalIncome">$0.00</h2>
+        </div>
+        <div class="glass summary-card">
+          <p class="label">Total Expenses</p>
+          <h2 id="totalExpenses">$0.00</h2>
+        </div>
+        <div class="glass summary-card">
+          <p class="label">Balance</p>
+          <h2 id="balance">$0.00</h2>
+        </div>
+      </section>
+
+      <section class="grid-two">
+        <div class="glass panel">
+          <h3>Add Transaction</h3>
+          <form id="transactionForm" class="form">
+            <div class="form-row">
+              <label for="type">Type</label>
+              <select id="type" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="amount">Amount</label>
+              <input
+                id="amount"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label for="category">Category</label>
+              <select id="category" required></select>
+            </div>
+            <div class="form-row">
+              <label for="note">Note</label>
+              <input
+                id="note"
+                type="text"
+                placeholder="e.g. Salary, Groceries"
+                maxlength="60"
+              />
+            </div>
+            <div class="form-row">
+              <label for="date">Date</label>
+              <input id="date" type="date" required />
+            </div>
+            <button class="primary-btn" type="submit">Add Transaction</button>
+          </form>
+        </div>
+
+        <div class="glass panel">
+          <div class="panel-header">
+            <h3>Category Summary</h3>
+            <select id="summaryFilter">
+              <option value="all">All</option>
+              <option value="income">Income</option>
+              <option value="expense" selected>Expense</option>
+            </select>
+          </div>
+          <div id="categorySummary" class="summary-list"></div>
+        </div>
+      </section>
+
+      <section id="investmentSection" class="investment-section">
+        <h2 class="section-title">Investment Calculator</h2>
+        <div class="grid-two">
+          <div class="glass panel">
+            <h3>Calculate Investment</h3>
+            <form id="investmentForm" class="form">
+              <div class="form-row">
+                <label for="principal">Principal Amount ($)</label>
+                <input
+                  id="principal"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="10000"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="rate">Annual Interest Rate (%)</label>
+                <input
+                  id="rate"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  placeholder="8.5"
+                  required
+                />
+              </div>
+              <div class="form-row form-row-split">
+                <div>
+                  <label for="timeValue">Time Period</label>
+                  <input
+                    id="timeValue"
+                    type="number"
+                    min="0.08"
+                    step="0.5"
+                    placeholder="5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="timeUnit">Unit</label>
+                  <select id="timeUnit">
+                    <option value="years">Years</option>
+                    <option value="months">Months</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="compound">Compound Frequency</label>
+                <select id="compound">
+                  <option value="1">Annually</option>
+                  <option value="2">Semi-annually</option>
+                  <option value="4">Quarterly</option>
+                  <option value="12" selected>Monthly</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="investmentNote">Label (optional)</label>
+                <input
+                  id="investmentNote"
+                  type="text"
+                  placeholder="e.g. FD, Mutual Fund"
+                  maxlength="50"
+                />
+              </div>
+              <button class="primary-btn" type="submit">Calculate</button>
+            </form>
+          </div>
+          <div class="glass panel investment-results-panel">
+            <h3>Results</h3>
+            <div id="investmentResults" class="investment-results">
+              <p class="label">Enter values and click Calculate.</p>
+            </div>
+            <div id="investmentResultsContent" class="investment-results-content hidden">
+              <div class="result-row">
+                <span class="label">Maturity Value</span>
+                <strong id="maturityValue">$0.00</strong>
+              </div>
+              <div class="result-row">
+                <span class="label">Total Interest</span>
+                <strong id="totalInterest" class="interest-positive">$0.00</strong>
+              </div>
+              <div class="result-row">
+                <span class="label">Return on Investment</span>
+                <strong id="roi">0%</strong>
+              </div>
+              <button id="saveInvestmentBtn" class="secondary-btn" type="button">Save to List</button>
+            </div>
+          </div>
+        </div>
+        <div class="glass panel">
+          <div class="panel-header">
+            <h3>Saved Investments</h3>
+          </div>
+          <div id="savedInvestmentsList" class="transaction-list"></div>
+        </div>
+      </section>
+
+      <section class="glass panel">
+        <div class="panel-header">
+          <h3>Recent Transactions</h3>
+          <div class="filters">
+            <select id="typeFilter">
+              <option value="all">All</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <input id="search" type="search" placeholder="Search notes..." />
+          </div>
+        </div>
+        <div id="transactionList" class="transaction-list"></div>
+      </section>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
